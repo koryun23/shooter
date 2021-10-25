@@ -2,6 +2,7 @@ from settings import *
 import pygame as pg
 import random
 import time
+from os import path
 vec = pg.math.Vector2
 class Spritesheet:
     def __init__(self, filename):
@@ -523,8 +524,9 @@ class Sword(pg.sprite.Sprite):
         self.rect.midright = self.game.player.rect.midright
         self.vel = vec(0,0)
         self.last_update = 0
-
-        self.images = [pg.image.load(f"sword_normal{i+1}.png").convert() for i in range(45)]
+        img_dir =path.join(self.game.dir, "img")
+        guns_dir = path.join(img_dir, "guns")
+        self.images = [pg.image.load(path.join(guns_dir, f"sword_normal{i+1}.png")).convert() for i in range(45)]
         for i in range(len(self.images)):
             self.images[i].set_colorkey(BLACK)
             self.images[i] = pg.transform.scale(self.images[i], (int(self.images[i].get_width()*1.2), int(self.images[i].get_height()*1.2)))
