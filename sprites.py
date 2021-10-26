@@ -85,6 +85,7 @@ class Player(pg.sprite.Sprite):
             self.game.main_hero_spritesheet.get_image(x*spritesheet_width*0.33,0+spritesheet_height*0.75,spritesheet_width*0.33, spritesheet_height*0.25)
             for x in range(3)
         ]
+        self.images = self.walk_r+self.walk_l
         if self.dir ==1:
             self.standing_frame = self.walk_r[0]
         else:
@@ -95,7 +96,7 @@ class Player(pg.sprite.Sprite):
         self.rect.center = (WIDTH/2, HEIGHT-40)
         self.vel = vec(0,0)
         self.pos = vec(WIDTH/2, HEIGHT-40)
-        self.health = 49
+        self.health = 100
         self.jumping = False
         self.walking = False
         self.last_jumped = 0
@@ -136,9 +137,14 @@ class Player(pg.sprite.Sprite):
             self.rect.bottom = bottom
     def update(self):
         self.animate()
-        if pg.time.get_ticks()-self.defence_timer > 6000:
+        if self.has_defence and pg.time.get_ticks()-self.defence_timer > 6000:
             self.has_defence=False
-        # health_bar(self.game.screen, WIDTH/2, 40, self.health)
+            for i in range(len(self.images)):
+                self.images[i].set_alpha(255)
+        elif self.has_defence and pg.time.get_ticks()-self.defence_timer < 6000:
+
+            for i in range(len(self.images)):
+                self.images[i].set_alpha(128)
         pg.display.flip()
         self.acc = vec(0,PLAYER_GRAV)
         keys = pg.key.get_pressed()
