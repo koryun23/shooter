@@ -10,7 +10,6 @@ TASKS:
 """
 class Game:
     def __init__(self):
-        print("game started")
         pg.init()
         pg.mixer.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -199,7 +198,7 @@ class Game:
     def show_go_screen(self):
         if not self.running:
             return
-        print(self.playing)
+
         self.tut_screen_on = False
         self.screen.fill(BLACK)
         self.screen.blit(self.background, self.background_rect)
@@ -243,14 +242,12 @@ class Game:
                         else:
                             waiting = False
                             self.tut_screen_on = False
-                        print(f"is tutorial screen on? {self.tut_screen_on}")
-                    # elif event.key == pg.K_b and self.tut_screen_on:
-                    #     self.tut_screen_on = False
-                    #     self.show_start_screen()
+
+
                     else:
                         waiting = False
                         self.tut_screen_on = False
-                        print(f"is tutorial screen on? {self.tut_screen_on}")
+
 
     def draw_text(self, text, size, color, x, y):
         font = pg.font.Font(self.font_name, size)

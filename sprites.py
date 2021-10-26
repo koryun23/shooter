@@ -254,7 +254,7 @@ class Mummie(pg.sprite.Sprite):
         for hit in hits:
             if not self.game.player.has_defence:
                 self.game.player.health-=10
-                print(f"Mummie x:{self.pos.x}, Player x:{self.game.player.pos.x}")
+
                 if self.game.player.health <=0:
                     self.game.score = 0
                     self.game.playing = False
@@ -348,7 +348,7 @@ class Zombie(pg.sprite.Sprite):
             if not self.game.player.has_defence:
 
                 self.game.player.health-=5
-                print(f"Zombie x:{self.pos.x}, Player x:{self.game.player.pos.x}")
+
                 if self.game.player.health <=0:
                     self.game.score = 0
                     self.game.playing = False
