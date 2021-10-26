@@ -21,6 +21,7 @@ class Game:
         self.font_name = pg.font.match_font(FONT_NAME)
         self.tut_screen_on = False
         self.last_created_defence =0
+        self.sec = random.choice([1000,2000,3000,4000,5000])
         self.load_data()
         #self.save_data()
     def load_data(self):
@@ -69,7 +70,8 @@ class Game:
         self.all_sprites.add(self.health)
     def new_defense_booster(self):
         now = pg.time.get_ticks()
-        if now - self.last_created_defence > 5000 and len(self.defence_powerup)==0:
+        if now - self.last_created_defence > 10000+self.sec and len(self.defence_powerup)==0:
+            self.sec = random.choice([1000,2000,3000,4000,5000])
             self.last_created_defence = now
             x = random.randrange(0, WIDTH)
             y = 5
