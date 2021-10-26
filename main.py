@@ -57,6 +57,10 @@ class Game:
         defence_img_height = self.defence_img.get_height()
         self.defence_img = pg.transform.scale(self.defence_img, (int(defence_img_width*0.7), int(defence_img_height*0.7)))
 
+        self.shoot_sound = pg.mixer.Sound(path.join(self.snd_dir, "shoot.wav"))
+        self.powerup_sound = pg.mixer.Sound(path.join(self.snd_dir, "powerup.wav"))
+        self.sword_hit_nothing_sound = pg.mixer.Sound(path.join(self.snd_dir, "sword.wav"))
+        self.sword_sound = pg.mixer.Sound(path.join(self.snd_dir, "sword_hit_mob.mp3"))
     def newmob(self):
         self.mob = Zombie(self)
         self.all_sprites.add(self.mob)

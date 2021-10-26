@@ -421,11 +421,13 @@ class Gun(pg.sprite.Sprite):
         self.rect.y = self.pos[1]
 
     def shoot(self):
+        self.game.shoot_sound.play()
         self.rect.x -= self.dir
         self.game.player.pos.x -= self.dir
         self.rotate_gun()
         self.newbullet()
         self.last_shot = pg.time.get_ticks()
+        
     def rotate_gun(self):
         pass
 
@@ -483,12 +485,14 @@ class Bullet(pg.sprite.Sprite):
         #Check if a bullet collided with a health powerup
         hits = pg.sprite.spritecollide(self, self.game.health_powerup, True)
         for hit in hits:
+            self.game.powerup_sound.play()
             self.kill()
             self.game.player.health+=20
         
         #Check if a bullet collided with a defence powerup
         hits = pg.sprite.spritecollide(self, self.game.defence_powerup, True)
         for hit in hits:
+            self.game.powerup_sound.play()
             self.kill()
             self.game.player.has_defence = True
             self.game.player.defence_timer = pg.time.get_ticks()
@@ -583,6 +587,7 @@ class Sword(pg.sprite.Sprite):
     def attack(self):
 
         if not self.attacked:
+            # 
             if self.dir == -1:
                 self.image = pg.transform.flip(self.images[self.current_frame], True, False)
             elif self.dir == 1:
@@ -591,8 +596,10 @@ class Sword(pg.sprite.Sprite):
             #check if the sword collided with a mob
             self.mask = pg.mask.from_surface(self.image)
             hits = pg.sprite.spritecollide(self, self.game.mobs, False, pg.sprite.collide_mask)
-
+            # if not hits:
+            #     self.game.sword_hit_nothing_sound.play()
             for hit in hits:
+                self.game.sword_sound.play()
                 hit.health -= 20
 
                 if hit.health<= 0:
@@ -607,13 +614,17 @@ class Sword(pg.sprite.Sprite):
                 else:
                     self.iamge = self.images[0]
                     hit.pos.x += self.dir*20
+            if len(hits) == 0:
+                self.game.sword_hit_nothing_sound.play()
             # check if the sword collided with a health booster powerup
             hits =pg.sprite.spritecollide(self, self.game.health_powerup, True)
             for hit in hits:
+                self.game.powerup_sound.play()
                 self.game.player.health+=20
             
             #check if the sword collided with a defence powerup
             hits = pg.sprite.spritecollide(self, self.game.defence_powerup, True)
             for hit in hits:
+                self.game.powerup_sound.play()
                 self.game.player.has_defence = True
                 self.game.player.defence_timer = pg.time.get_ticks()
