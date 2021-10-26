@@ -2,12 +2,7 @@ import pygame as pg
 from settings import *
 from sprites import *
 from os import path
-"""
-TASKS:
 
-6) Add sounds
-
-"""
 class Game:
     def __init__(self):
         pg.init()
