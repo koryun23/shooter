@@ -18,7 +18,7 @@ class Game:
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
         self.running = True
-        self.font_name = pg.font.match_font(FONT_NAME)
+        self.font_name = pg.font.match_font("alias")
         self.tut_screen_on = False
         self.last_created_defence =0
         self.sec = random.choice([1000,2000,3000,4000,5000])

@@ -159,9 +159,9 @@ class Player(pg.sprite.Sprite):
         self.vel += self.acc 
         self.pos += self.vel + 0.5*self.acc
         if self.pos.x > WIDTH:
-            self.pos.x = 0
-        elif self.pos.x < 0:
             self.pos.x = WIDTH
+        elif self.pos.x < 0:
+            self.pos.x = 0
         if self.pos.y > HEIGHT-40:
             self.pos.y=HEIGHT-40
         self.rect.center = self.pos
@@ -228,16 +228,7 @@ class Mummie(pg.sprite.Sprite):
             self.vel.y=0
         self.mask = pg.mask.from_surface(self.image)
         self.pos.y+=self.vel.y
-        #check if the mob collided with the player vertically
-        if self.vel.y != 0 and self.rect.colliderect(self.game.player.rect) and (self.rect.x+5+self.rect.width >= self.game.player.rect.x or self.rect.x-5<=self.game.player.rect.x+self.game.player.rect.width):
-            self.game.player.pos.x += self.rect.width*2
-            if self.game.player.pos.y < self.pos.y:
-                self.game.player.pos.x += self.rect.width
-                self.game.player.pos.y = -10
-            self.game.gun.rect.x += self.rect.width*2
-            if not self.game.player.has_defence:
-                self.game.player.health -=15
-            print(self.game.player.health)
+
 
         #move in x direction if the mob did not collide with player        
         if not self.rect.colliderect(self.game.player.rect) or (self.rect.x+5+self.game.player.rect.width >= self.game.player.rect.x or self.rect.x-5<=self.game.player.rect.x+self.game.player.rect.width):
@@ -257,7 +248,7 @@ class Mummie(pg.sprite.Sprite):
         for hit in hits:
             if not self.game.player.has_defence:
                 self.game.player.health-=10
-                print(self.game.player.health)
+                print(f"Mummie x:{self.pos.x}, Player x:{self.game.player.pos.x}")
                 if self.game.player.health <=0:
                     self.game.score = 0
                     self.game.playing = False
@@ -265,7 +256,7 @@ class Mummie(pg.sprite.Sprite):
             if hit.vel.x > 0:
                 self.game.player.pos.x += 5
                 self.game.gun.rect.x +=5
-            else:
+            elif hit.vel.x < 0:
                 self.game.player.pos.x -=5
                 self.game.gun.rect.x -=5
 
@@ -331,16 +322,6 @@ class Zombie(pg.sprite.Sprite):
             self.vel.y=0
         self.mask = pg.mask.from_surface(self.image)
         self.pos.y+=self.vel.y
-        #check if the mob collided with the player vertically
-        if self.vel.y != 0 and self.rect.colliderect(self.game.player.rect) and (self.rect.x+5+self.rect.width >= self.game.player.rect.x or self.rect.x-5<=self.game.player.rect.x+self.game.player.rect.width):
-            self.game.player.pos.x += self.rect.width*2
-            if self.game.player.pos.y < self.pos.y:
-                self.game.player.pos.x += self.rect.width
-                self.game.player.pos.y = -10
-            self.game.gun.rect.x += self.rect.width*2
-            if not self.game.player.has_defence:
-                self.game.player.health -=10
-                print(self.game.player.health)
 
         #move in x direction if the mob did not collide with player        
         if not self.rect.colliderect(self.game.player.rect) or (self.rect.x+5+self.game.player.rect.width >= self.game.player.rect.x or self.rect.x-5<=self.game.player.rect.x+self.game.player.rect.width):
@@ -359,8 +340,9 @@ class Zombie(pg.sprite.Sprite):
         hits = pg.sprite.spritecollide(self.game.player, self.game.mobs, False, pg.sprite.collide_mask)
         for hit in hits:
             if not self.game.player.has_defence:
+
                 self.game.player.health-=5
-                print(self.game.player.health)
+                print(f"Zombie x:{self.pos.x}, Player x:{self.game.player.pos.x}")
                 if self.game.player.health <=0:
                     self.game.score = 0
                     self.game.playing = False
