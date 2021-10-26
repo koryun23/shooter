@@ -4,7 +4,7 @@ from sprites import *
 from os import path
 """
 TASKS:
-1) fix small bugs(later)
+
 6) Add sounds
 
 """
@@ -26,6 +26,7 @@ class Game:
         #self.save_data()
     def load_data(self):
         self.dir = path.dirname(__file__)
+        self.snd_dir = path.join(self.dir, "snd")
         img_dir = path.join(self.dir, "img")
         main_hero_dir = path.join(img_dir, "main_hero")
         self.main_hero_spritesheet_img = pg.image.load(path.join(main_hero_dir, "blordrough_corporal-NESW.png"))
@@ -85,6 +86,7 @@ class Game:
         self.mobs.add(self.mummie)
         self.mummies.add(self.mummie)
     def new(self):
+        self.bgmusic = pg.mixer.music.load(path.join(self.snd_dir, "main.wav"))
         self.all_sprites = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
         self.bullets = pg.sprite.Group()
@@ -102,11 +104,13 @@ class Game:
     
     def run(self):
         self.playing = True
+        pg.mixer.music.play(loops = -1)
         while self.playing:
             self.clock.tick(FPS)
             self.events()
             self.update()
             self.draw()
+        pg.mixer.music.fadeout(500)
     def health_bar(self,surf,length, height, x, y, pct):
         if pct < 0:
             pct = 0
