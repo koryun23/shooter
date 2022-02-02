@@ -9,6 +9,9 @@ class Game:
         pg.mixer.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         self.score = 0
+        self.num_of_zombies = 2
+        self.num_of_mummies = 1
+
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
         self.running = True
@@ -37,7 +40,7 @@ class Game:
         self.bullet_img = pg.image.load(path.join(guns_dir, "bullet1.png")).convert()
         self.sword_img = pg.image.load(path.join(guns_dir, "sword_normal.png")).convert()
         self.background = pg.image.load(path.join(img_dir, "bg.png")).convert()
-        self.background = pg.transform.scale(self.background, (int(self.background.get_width()*1.4), int(self.background.get_height()*1.1)))
+        self.background = pg.transform.scale(self.background, (int(self.background.get_width()*1.9), int(self.background.get_height()*1.1)))
         self.background_rect = self.background.get_rect()
         powerups_dir = path.join(img_dir, "powerups")
         self.health_img = pg.image.load(path.join(powerups_dir, "health.png")).convert()
@@ -125,13 +128,20 @@ class Game:
         pg.draw.rect(surf, WHITE, outline_rect, 2)
     def update(self):
         self.new_defense_booster()
+        # if self.score >= 200:
+        self.num_of_mummies = self.score//300 + 1
+        self.num_of_zombies = self.score//300 + 2
+        if self.num_of_zombies >= 5:
+            self.num_of_zombies = 4
+        if self.num_of_mummies >= 4:
+            self.num_of_mummies = 3
         if self.player.health < 50:
             if random.randrange(0,100)== 80 and len(self.powerups) ==0:
                 self.new_health_booster()
 
-        if len(self.zombies) < 2:
+        if len(self.zombies) < self.num_of_zombies:
             self.newmob()
-        if len(self.mummies)< 1:
+        if len(self.mummies)< self.num_of_mummies:
             self.newmummie()
         if self.player.weapons[0] == "gun":
             if self.player.has_sword:

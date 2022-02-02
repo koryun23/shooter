@@ -1,5 +1,5 @@
 TITLE = "Shooter"
-WIDTH = 800
+WIDTH = 1000
 HEIGHT=480
 FPS = 60
 
