@@ -143,10 +143,10 @@ class Game:
         # if self.score >= 200:
         self.num_of_mummies = self.score // 300 + 1
         self.num_of_zombies = self.score // 300 + 2
-        if self.num_of_zombies >= 5:
-            self.num_of_zombies = 4
-        if self.num_of_mummies >= 4:
-            self.num_of_mummies = 3
+        if self.num_of_zombies >= 6:
+            self.num_of_zombies = 5
+        if self.num_of_mummies >= 5:
+            self.num_of_mummies = 4
         if self.player.health < 50:
             if random.randrange(0, 100) == 80 and len(self.powerups) == 0:
                 self.new_health_booster()

@@ -182,9 +182,9 @@ class Player(pg.sprite.Sprite):
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
         if self.pos.x > WIDTH:
-            self.pos.x = WIDTH
-        elif self.pos.x < 0:
             self.pos.x = 0
+        elif self.pos.x < 0:
+            self.pos.x = WIDTH
         if self.pos.y > HEIGHT - 40:
             self.pos.y = HEIGHT - 40
         self.rect.center = self.pos
